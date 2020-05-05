@@ -1,0 +1,12 @@
+/home/user/JM_Preproject4H/src/main/java/dao/UserDao.java
+/home/user/JM_Preproject4H/src/main/java/dao/UserDaoHibernateImpl.java
+/home/user/JM_Preproject4H/src/main/java/dao/UserDaoJDBCimpl.java
+/home/user/JM_Preproject4H/src/main/java/service/UserService.java
+/home/user/JM_Preproject4H/src/main/java/servlet/ReadServlet.java
+/home/user/JM_Preproject4H/src/main/java/servlet/CreateServlet.java
+/home/user/JM_Preproject4H/src/main/java/model/User.java
+/home/user/JM_Preproject4H/src/main/java/util/DBHelper.java
+/home/user/JM_Preproject4H/src/main/java/servlet/UpdateServlet.java
+/home/user/JM_Preproject4H/src/main/java/exception/DBException.java
+/home/user/JM_Preproject4H/src/main/java/service/UserServiceHibernate.java
+/home/user/JM_Preproject4H/src/main/java/servlet/DeleteServlet.java
