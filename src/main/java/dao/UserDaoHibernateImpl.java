@@ -8,6 +8,7 @@ import org.hibernate.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class UserDaoHibernateImpl implements UserDao {
 
@@ -85,13 +86,27 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void updateUserDao(User user) throws HibernateException {
         Transaction transaction = session.beginTransaction();
-        session.createQuery("UPDATE User SET name=:name, login=:login, password=:password WHERE id=:id")
+      /*  session.createQuery("UPDATE User SET name=:name, login=:login, password=:password WHERE id=:id")
                 .setParameter("name", user.getName())
                 .setParameter("login", user.getLogin())
                 .setParameter("password", user.getPassword())
                 .setParameter("id", user.getId())
                 .executeUpdate();
+
+        Query query = session.createQuery("UPDATE User SET name=:name, login=:login, password=:password WHERE id=:id")
+                .setParameter("name", user.getName())
+                .setParameter("login", user.getLogin())
+                .setParameter("password", user.getPassword())
+                .setParameter("id", user.getId()); */
+        String hql = "UPDATE User SET name=:name, login=:login, password=:password WHERE id=:id";
+        Query query = session.createQuery(hql);
+        query.setParameter("name", user.getName());
+        query.setParameter("login", user.getLogin());
+        query.setParameter("password", user.getPassword());
+        query.setParameter("id", user.getId());
+
         try {
+            query.executeUpdate();
             transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
@@ -106,13 +121,13 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("DELETE FROM User WHERE id = :userId");
         query.setParameter("userId", id);
-        query.executeUpdate();
+        // query.executeUpdate();
         try {
+            query.executeUpdate();
             transaction.commit();
         } catch (HibernateException e) {
             transaction.rollback();
-        }
-        finally {
+        } finally {
             session.close();
         }
     }
