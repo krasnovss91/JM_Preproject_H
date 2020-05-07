@@ -3,10 +3,7 @@ package dao;
 
 import exception.DBException;
 import model.User;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -71,16 +68,22 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     @Override
-    public void addUserDao(User user) {
+    public void addUserDao(User user) throws HibernateException {
         Transaction transaction = session.beginTransaction();
-        session.save(user);
-        transaction.commit();
-        session.close();
+        try {
+            // Transaction transaction = session.beginTransaction();
+            session.save(user);
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+        } finally {
+            session.close();
+        }
     }
 
 
     @Override
-    public void updateUserDao(User user) {
+    public void updateUserDao(User user) throws HibernateException {
         Transaction transaction = session.beginTransaction();
         session.createQuery("UPDATE User SET name=:name, login=:login, password=:password WHERE id=:id")
                 .setParameter("name", user.getName())
@@ -88,19 +91,30 @@ public class UserDaoHibernateImpl implements UserDao {
                 .setParameter("password", user.getPassword())
                 .setParameter("id", user.getId())
                 .executeUpdate();
-
-        transaction.commit();
+        try {
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+        } finally {
+            session.close();
+        }
     }
 
 
     @Override
-    public void deleteUserByIdDao(Long id) throws SQLException {
+    public void deleteUserByIdDao(Long id) throws HibernateException {
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("DELETE FROM User WHERE id = :userId");
         query.setParameter("userId", id);
         query.executeUpdate();
-        transaction.commit();
-        session.close();
+        try {
+            transaction.commit();
+        } catch (HibernateException e) {
+            transaction.rollback();
+        }
+        finally {
+            session.close();
+        }
     }
 
 }

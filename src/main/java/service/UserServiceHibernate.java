@@ -80,12 +80,7 @@ public class UserServiceHibernate {
 
 
     public void deleteUserById(Long id) {
-        try {
-            new UserDaoHibernateImpl(sessionFactory.openSession()).deleteUserByIdDao(id);
-        } catch (SQLException e) {
-            e.printStackTrace();
-
-        }
+        new UserDaoHibernateImpl(sessionFactory.openSession()).deleteUserByIdDao(id);
     }
 
     public void updateUser(User user) {
